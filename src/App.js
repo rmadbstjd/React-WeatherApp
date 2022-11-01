@@ -1,32 +1,28 @@
 import logo from "./logo.svg";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState, useRef } from "react";
-
+import WeatherInfo from "./component/WeatherInfo";
+import WeatherButton from "./component/WeatherButton";
 function App() {
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
+  const [info, setInfo] = useState(null);
   const getCurrentLocation = () => {
-    console.log("1");
     navigator.geolocation.getCurrentPosition(showPosition);
-    console.log("3");
   };
   const showPosition = (position) => {
-    console.log("2");
-
     setLat(() => position.coords.latitude);
     setLon(() => position.coords.longitude);
   };
-  const getCurrentWeather = (lat, lon) => {
+  const getCurrentWeather = async (lat, lon) => {
     const API_KEY = "f224b4bceab7f1da7f43966dc18bfa6d";
-    fetch(
+    let response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const temp = data.main.temp;
-        const weathers = data.weather[data.weather.length - 1];
-        console.log(temp, weathers);
-      });
+    );
+    const data = await response.json();
+
+    setInfo(data);
   };
   useEffect(() => {
     getCurrentLocation();
@@ -37,7 +33,15 @@ function App() {
       getCurrentWeather(lat, lon);
     }
   }, [lat]);
-  return <div></div>;
+
+  return (
+    <div>
+      <div className="container">
+        <WeatherInfo info={info}></WeatherInfo>
+        <WeatherButton></WeatherButton>
+      </div>
+    </div>
+  );
 }
 
 export default App;
