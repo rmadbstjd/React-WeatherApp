@@ -23,6 +23,7 @@ function App() {
     const data = await response.json();
 
     setInfo(data);
+    console.log("테스트중");
   };
   useEffect(() => {
     getCurrentLocation();
@@ -38,7 +39,12 @@ function App() {
     <div>
       <div className="container">
         <WeatherInfo info={info}></WeatherInfo>
-        <WeatherButton></WeatherButton>
+        <WeatherButton
+          lat={lat}
+          lon={lon}
+          setInfo={setInfo}
+          getCurrentWeather={getCurrentWeather}
+        ></WeatherButton>
       </div>
     </div>
   );
