@@ -25,6 +25,13 @@ function App() {
     setInfo(data);
     console.log("테스트중");
   };
+  const getCityWeather = async (city) => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f224b4bceab7f1da7f43966dc18bfa6d`;
+    let response = await fetch(url);
+    let data = await response.json();
+    data.main.temp = (data.main.temp - 273.15).toFixed(2);
+    setInfo(data);
+  };
   useEffect(() => {
     getCurrentLocation();
   }, []);
@@ -44,6 +51,7 @@ function App() {
           lon={lon}
           setInfo={setInfo}
           getCurrentWeather={getCurrentWeather}
+          getCityWeather={getCityWeather}
         ></WeatherButton>
       </div>
     </div>
