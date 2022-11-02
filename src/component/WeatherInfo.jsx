@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './WeatherInfo.module.css';
 function WeatherInfo({info}) {
-    console.log(info);
+    console.log("테스트",info);
     return (
         <div className={styles.box}>
             <div>{info && info.name}</div>
